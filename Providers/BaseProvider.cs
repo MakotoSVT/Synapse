@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
-using Synapse.Models;
 
 namespace Synapse.Providers
 {
@@ -47,38 +46,5 @@ namespace Synapse.Providers
 
             return result;
         }
-
-        //public bool SendAlertMessage(Item item, string orderId)
-        //{
-        //    try
-        //    {
-        //        using (HttpClient httpClient = new HttpClient())
-        //        {
-        //            var alertApiUrl = $"{_alertApiUrl}alerts";
-
-        //            var alertData = new
-        //            {
-        //                Message = $"Alert for delivered item: Order {orderId}, Item: {item.Description}, " +
-        //                          $"Delivery Notifications: {item.DeliveryNotification}"
-        //            };
-
-        //            var content = new StringContent(JObject.FromObject(alertData).ToString(), System.Text.Encoding.UTF8, "application/json");
-        //            var response = httpClient.PostAsync(alertApiUrl, content).Result;
-
-        //            if (response.IsSuccessStatusCode)
-        //            {
-        //                Console.WriteLine($"Alert sent for delivered item: {item.Description}");
-        //            }
-        //            else
-        //            {
-        //                Console.WriteLine($"Failed to send alert for delivered item: {item.Description}");
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Logger.LogError($"Failed to send alert for delivered item. ERROR: {ex.Message}");
-        //    }
-        //}
     }
 }

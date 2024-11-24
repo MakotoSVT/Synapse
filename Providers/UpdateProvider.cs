@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Synapse.Models;
 
@@ -19,23 +18,29 @@ namespace Synapse.Providers
         {
             try
             {
-                using (HttpClient httpClient = new HttpClient())
+                if (order == null)
                 {
-                    string updateApiUrl = $"{_apiUrl}update";
-                    var content = new StringContent(JObject.FromObject(order).ToString(), System.Text.Encoding.UTF8, "application/json");
-                    var response = await httpClient.PostAsync(updateApiUrl, content);
-
-                    if (response.IsSuccessStatusCode)
+                    using (HttpClient httpClient = new HttpClient())
                     {
-                        SendAlertMessage($"Updated order sent for processing: OrderId {order.OrderId}");
+                        string updateApiUrl = $"{_apiUrl}update";
 
-                        return true;
+                        var content = new StringContent(JObject.FromObject(order).ToString(), System.Text.Encoding.UTF8, "application/json");
+                        var response = await httpClient.PostAsync(updateApiUrl, content);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            SendAlertMessage($"Updated order sent for processing: OrderId {order.OrderId}");
+
+                            return true;
+                        }
                     }
-                    else
-                    {
-                        Console.WriteLine($"Failed to send updated order for processing: OrderId {order.OrderId}");
-                    }
+
+                    Logger.LogError($"Failed to send updated order for processing: OrderId {order.OrderId}");
+                    return false;
                 }
+
+                Logger.LogError($"Failed to send updated order for processing: OrderId is null");
+                return false;
             }
             catch (Exception ex)
             {
@@ -44,36 +49,5 @@ namespace Synapse.Providers
 
             return false;
         }
-
-
-        //public async Task<bool> SendAlertAndUpdateOrder(JObject order)
-        //{
-        //    try
-        //    {
-        //        using (HttpClient httpClient = new HttpClient())
-        //        {
-        //            string updateApiUrl = $"{_apiUrl}update";
-        //            var content = new StringContent(order.ToString(), System.Text.Encoding.UTF8, "application/json");
-        //            var response = await httpClient.PostAsync(updateApiUrl, content);
-
-        //            if (response.IsSuccessStatusCode)
-        //            {
-        //                Console.WriteLine($"Updated order sent for processing: OrderId {order["OrderId"]}");
-
-        //                return true;
-        //            }
-        //            else
-        //            {
-        //                Console.WriteLine($"Failed to send updated order for processing: OrderId {order["OrderId"]}");
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-
-        //    return false;
-        //}
     }
 }

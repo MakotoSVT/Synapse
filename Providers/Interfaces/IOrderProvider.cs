@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using Synapse.Models;
+﻿using Synapse.Models;
 
 namespace Synapse.Providers
 {

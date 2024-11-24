@@ -57,52 +57,5 @@ namespace Synapse.BusinessLogic
 
             return order;
         }
-
-
-
-        //public bool IsItemDelivered(OrderItem item)
-        //{
-        //    return item.Status.Equals("Delivered", StringComparison.OrdinalIgnoreCase);
-        //}
-
-        //public OrderItem IncrementDeliveryNotification(OrderItem item)
-        //{
-        //    item.DeliveryNotification = item.DeliveryNotification++;
-
-        //    return item;
-        //}
-
-        // jobject stuf
-
-        //public JObject ProcessOrder(JObject order)
-        //{
-        //    var items = order["Items"].ToObject<JArray>();
-
-        //    if (items != null)
-        //    {
-        //        foreach (var item in items)
-        //        {
-        //            if (IsItemDelivered(item))
-        //            {
-        //                _alertProvider.SendAlertMessage(item, order["OrderId"].ToString());
-        //                IncrementDeliveryNotification(item);
-        //            }
-        //        }
-        //    }
-
-        //    return order;
-        //}
-
-        //public bool IsItemDelivered(JToken item)
-        //{
-        //    return item["Status"].ToString().Equals("Delivered", StringComparison.OrdinalIgnoreCase);
-        //}
-
-        //public JToken IncrementDeliveryNotification(JToken item)
-        //{
-        //    item["deliveryNotification"] = item["deliveryNotification"].Value<int>() + 1;
-
-        //    return item;
-        //}
     }
 }

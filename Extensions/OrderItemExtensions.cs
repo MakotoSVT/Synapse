@@ -1,5 +1,4 @@
-﻿
-using Synapse.Models;
+﻿using Synapse.Models;
 
 namespace Synapse.Extensions
 {
