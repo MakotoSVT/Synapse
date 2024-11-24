@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Synapse.BusinessLogic;
-using Synapse.Providers;
-using Serilog;
 using Microsoft.Extensions.Logging;
+using Synapse.BusinessLogic;
 using Synapse.Factories;
+using Synapse.Providers;
 
 namespace Synapse.OrdersExample
 {
@@ -44,7 +43,6 @@ namespace Synapse.OrdersExample
             {
                 foreach (var order in medicalEquipmentOrders)
                 {
-
                     // check and update delivered orders
                     var updatedOrder = _orderManager.ProcessOrder(order);
 

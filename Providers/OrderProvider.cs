@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Serilog.Core;
 using Synapse.Models;
 
 namespace Synapse.Providers
@@ -41,37 +40,5 @@ namespace Synapse.Providers
 
             return null;
         }
-
-        //public async Task<JObject[]> FetchMedicalEquipmentOrders()
-        //{
-        //    try
-        //    {
-        //        using (var httpClient = new HttpClient())
-        //        {
-        //            var ordersApiUrl = $"{_apiUrl}orders";
-        //            var response = await httpClient.GetAsync(ordersApiUrl);
-
-        //            if (response.IsSuccessStatusCode)
-        //            {
-        //                var ordersData = await response.Content.ReadAsStringAsync();
-
-        //                var jarray = JArray.Parse(ordersData);
-
-        //                if (jarray.HasValues)
-        //                {
-        //                    return jarray.ToObject<JObject[]>();
-        //                }
-        //            }
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // log here
-        //        Console.WriteLine("Failed to fetch orders from API.");
-        //    }
-
-        //    return null;
-        //}
     }
 }
