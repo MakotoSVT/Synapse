@@ -8,13 +8,14 @@ namespace Synapse.Providers
     {
         public IConfiguration Configuration;
         public ILogger Logger { get; set; }
-
+        public int ApiTimeout { get; set; }
         public string _alertApiUrl { get; set; }
 
 
         public BaseProvider(IConfiguration configuration, ILogger logger)
         {
             Configuration = configuration;
+            ApiTimeout = Convert.ToInt32(configuration["AppSettings:ApiTimeout"]);
             Logger = logger;
         }
 
@@ -26,6 +27,8 @@ namespace Synapse.Providers
             {
                 using (HttpClient httpClient = new HttpClient())
                 {
+                    httpClient.Timeout = TimeSpan.FromSeconds(ApiTimeout);
+
                     var alertApiUrl = $"{_alertApiUrl}alerts";
 
                     var alertData = new

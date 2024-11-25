@@ -11,7 +11,7 @@ namespace Synapse.Extensions
 
         public static Item IncrementDeliveryNotification(this Item item)
         {
-            item.DeliveryNotification = item.DeliveryNotification++;
+            item.DeliveryNotification = item.DeliveryNotification + 1;
 
             return item;
         }
