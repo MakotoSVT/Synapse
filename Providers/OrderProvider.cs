@@ -20,6 +20,7 @@ namespace Synapse.Providers
             {
                 using (var httpClient = new HttpClient())
                 {
+                    httpClient.Timeout = TimeSpan.FromSeconds(ApiTimeout);
                     var ordersApiUrl = $"{_apiUrl}orders";
                     var response = await httpClient.GetAsync(ordersApiUrl);
 

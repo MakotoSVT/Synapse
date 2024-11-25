@@ -6,9 +6,9 @@ using Synapse.Providers;
 
 namespace Synapse.BusinessLogic
 {
-    internal class OrderManager : IOrderManager
+    public class OrderManager : IOrderManager
     {
-        internal IAlertProvider _alertProvider { get; set; }
+        public IAlertProvider _alertProvider { get; set; }
 
         public OrderManager(IConfiguration configuration, ILogger logger)
         {
@@ -25,6 +25,7 @@ namespace Synapse.BusinessLogic
                 {
                     foreach (var item in deliveredItems)
                     {
+                        var itemIndex = deliveredItems.IndexOf(item);
                         // this should go in a method
                         var message = $"Alert for delivered item: Order {order.OrderId}, Item: {item.Description}, " +
                                   $"Delivery Notifications: {item.DeliveryNotification}";
@@ -33,6 +34,7 @@ namespace Synapse.BusinessLogic
 
                         if (alertResult)
                         {
+                            deliveredItems[itemIndex].IncrementDeliveryNotification();
                             Console.WriteLine($"Alert sent for delivered item: {item.Description}");
                             continue;
                         }

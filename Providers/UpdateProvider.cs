@@ -22,6 +22,7 @@ namespace Synapse.Providers
                 {
                     using (HttpClient httpClient = new HttpClient())
                     {
+                        httpClient.Timeout = TimeSpan.FromSeconds(ApiTimeout);
                         string updateApiUrl = $"{_apiUrl}update";
 
                         var content = new StringContent(JObject.FromObject(order).ToString(), System.Text.Encoding.UTF8, "application/json");

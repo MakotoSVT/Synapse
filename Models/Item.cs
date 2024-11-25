@@ -2,8 +2,8 @@
 {
     public class Item
     {
-        // need some way of tracking identity of each item. this is as of yet unused.
-        public int ID { get; set; }
+        // I am following the OrderId convention without knowing if Items follow the same pattern because all things need identifiers of some sort.
+        public string ItemId { get; set; }
         public string Description { get; set; }
         public string Status { get; set; }
         public int DeliveryNotification { get; set; }
