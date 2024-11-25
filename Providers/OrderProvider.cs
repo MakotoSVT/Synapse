@@ -36,7 +36,7 @@ namespace Synapse.Providers
             }
             catch (Exception ex)
             {
-                Logger.LogError($"Failed to fetch orders from Order API. ERROR: {ex.Message}");
+                throw new Exception($"Failed to fetch orders from Order API. ERROR: {ex.Message}");
             }
 
             return null;

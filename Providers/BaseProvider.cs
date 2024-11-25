@@ -44,7 +44,7 @@ namespace Synapse.Providers
             }
             catch (Exception ex)
             {
-                Logger.LogError($"Failed to send alert for delivered item. ERROR: {ex.Message}");
+                throw new Exception($"Failed to send alert for delivered item. ERROR: {ex.Message}");
             }
 
             return result;

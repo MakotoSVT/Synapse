@@ -1,48 +1,14 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 
 namespace Synapse.Providers
 {
+    // This exists sot hat we can use the interface to access the base provider which houses the Alert functionality that other providers may use.
     public class AlertProvider : BaseProvider, IAlertProvider
     {
-        //public IConfiguration Configuration;
-        //public ILogger Logger { get; set; }
-
-        //public string _alertApiUrl { get; set; }
         public AlertProvider(IConfiguration configuration, ILogger logger) : base(configuration, logger)
         {
 
-            //Configuration = configuration;
-            //Logger = logger;
         }
-        //public bool SendAlertMessage(string message)
-        //{
-        //    var result = false;
-
-        //    try
-        //    {
-        //        using (HttpClient httpClient = new HttpClient())
-        //        {
-        //            var alertApiUrl = $"{_alertApiUrl}alerts";
-
-        //            var alertData = new
-        //            {
-        //                Message = message
-        //            };
-
-        //            var content = new StringContent(JObject.FromObject(alertData).ToString(), System.Text.Encoding.UTF8, "application/json");
-        //            var response = httpClient.PostAsync(alertApiUrl, content).Result;
-
-        //            result = response.IsSuccessStatusCode;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Logger.LogError($"Failed to send alert for delivered item. ERROR: {ex.Message}");
-        //    }
-
-        //    return result;
-        //}
     }
 }
