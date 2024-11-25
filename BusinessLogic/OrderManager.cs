@@ -9,10 +9,12 @@ namespace Synapse.BusinessLogic
     public class OrderManager : IOrderManager
     {
         public IAlertProvider _alertProvider { get; set; }
+        public ILogger _logger { get; set; }
 
         public OrderManager(IConfiguration configuration, ILogger logger)
         {
             _alertProvider = new AlertProvider(configuration, logger);
+            _logger = logger;
         }
 
         public Order ProcessOrder(Order order)
@@ -35,11 +37,11 @@ namespace Synapse.BusinessLogic
                         if (alertResult)
                         {
                             deliveredItems[itemIndex].IncrementDeliveryNotification();
-                            Console.WriteLine($"Alert sent for delivered item: {item.Description}");
+                            _logger.LogInformation($"Alert sent for delivered item: {item.Description}");
                             continue;
                         }
 
-                        Console.WriteLine($"Failed to send alert for delivered item: {item.Description}");
+                        _logger.LogError($"Failed to send alert for delivered item: {item.Description}");
                     }
 
                     deliveredItems.ForEach(x => x.IncrementDeliveryNotification());

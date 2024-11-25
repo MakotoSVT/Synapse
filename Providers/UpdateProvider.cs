@@ -14,7 +14,7 @@ namespace Synapse.Providers
             _apiUrl = Configuration["AppSettings:UpdateAPI"];
         }
 
-        public async Task<bool> SendAlertAndUpdateOrder(Order order)
+        public async Task<int> SendAlertAndUpdateOrder(Order order)
         {
             try
             {
@@ -30,25 +30,25 @@ namespace Synapse.Providers
 
                         if (response.IsSuccessStatusCode)
                         {
-                            SendAlertMessage($"Updated order sent for processing: OrderId {order.OrderId}");
+                            var sendResult = SendAlertMessage($"Updated order sent for processing: OrderId {order.OrderId}");
 
-                            return true;
+                            return 1;
                         }
                     }
 
                     Logger.LogError($"Failed to send updated order for processing: OrderId {order.OrderId}");
-                    return false;
+                    return 0;
                 }
 
                 Logger.LogError($"Failed to send updated order for processing: OrderId is null");
-                return false;
+                return 0;
             }
             catch (Exception ex)
             {
                 Logger.LogError($"Failed to send updated order for processing. ERROR: {ex.Message}");
             }
 
-            return false;
+            return 0;
         }
     }
 }

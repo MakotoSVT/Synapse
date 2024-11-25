@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Synapse.BusinessLogic;
-using Synapse.Factories;
 using Synapse.Providers;
 
 namespace Synapse.OrdersExample
@@ -19,44 +18,58 @@ namespace Synapse.OrdersExample
         static IOrderManager _orderManager { get; set; }
         static IConfiguration _configuration { get; set; }
         static Factories.Interfaces.ILogger _loggerFactory { get; set; }
+        static ILogger<Program> _logger { get; set; }
 
-        static async Task<int> Main(string[] args)
+        static void ConfigureStartup()
         {
-            Console.WriteLine("Start of App");
-
-            // in a real web app things like providers and repositories would utilize dependency injection by adding scope on startup 
             var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json", false, true);
             _configuration = builder.Build();
 
-            _loggerFactory = new Logger(_configuration);
+            _loggerFactory = new Factories.Logger(_configuration);
 
             var loggerFactory = _loggerFactory.BuildLoggerFactory(_configuration);
-            var logger = loggerFactory.CreateLogger<Program>();
+            _logger = loggerFactory.CreateLogger<Program>();
 
-            _orderProvider = new OrderProvider(_configuration, logger);
-            _alertProvider = new AlertProvider(_configuration, logger);
-            _updateProvider = new UpdateProvider(_configuration, logger);
+            _orderProvider = new OrderProvider(_configuration, _logger);
+            _alertProvider = new AlertProvider(_configuration, _logger);
+            _updateProvider = new UpdateProvider(_configuration, _logger);
+        }
 
-            var medicalEquipmentOrders = await _orderProvider.FetchMedicalEquipmentOrders();
+        static async Task<int> Main(string[] args)
+        {
+            var result = 0;
 
-            if (medicalEquipmentOrders != null)
+            try
             {
-                foreach (var order in medicalEquipmentOrders)
+                ConfigureStartup();
+
+                _logger.LogInformation("Start of App");
+
+                var medicalEquipmentOrders = await _orderProvider.FetchMedicalEquipmentOrders();
+
+                if (medicalEquipmentOrders != null)
                 {
-                    // check and update delivered orders
-                    var updatedOrder = _orderManager.ProcessOrder(order);
-
-                    if (updatedOrder != null)
+                    foreach (var order in medicalEquipmentOrders)
                     {
-                        // update order
-                        _updateProvider.SendAlertAndUpdateOrder(updatedOrder).GetAwaiter().GetResult();
-                    }
+                        // check and update delivered orders
+                        var updatedOrder = _orderManager.ProcessOrder(order);
 
+                        if (updatedOrder != null)
+                        {
+                            // update order
+                           result = result + _updateProvider.SendAlertAndUpdateOrder(updatedOrder).GetAwaiter().GetResult();
+                        }
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
 
-            Console.WriteLine("Results sent to relevant APIs.");
-            return 0;
+            _logger.LogInformation($"{result} results sent to relevant APIs.");
+
+            return result;
         }
     }
 }
