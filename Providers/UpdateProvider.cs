@@ -45,8 +45,10 @@ namespace Synapse.Providers
             }
             catch (Exception ex)
             {
-                throw new Exception($"Failed to send updated order for processing. ERROR: {ex.Message}");
+                Logger.LogError($"Failed to send updated order for processing. ERROR: {ex.Message}");
             }
+
+            return 0;
         }
     }
 }
